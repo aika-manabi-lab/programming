@@ -73,6 +73,7 @@
   - x を「180」にします
   - y を「0」にします
   - <ruby>大<rt>おお</rt></ruby>きさを「50」にします
+  - <ruby>向<rt>む</rt></ruby>きを「0」にします
 
 ### 4. <ruby>味方<rt>みかた</rt></ruby>のプログラム
 
@@ -114,3 +115,39 @@
 >
 > x<ruby>座標<rt>ざひょう</rt></ruby>は<ruby>左右方向<rt>さゆうほうこう</rt></ruby>のことです。  
 > <ruby>数字<rt>すうじ</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてみるとビームはどうなるでしょうか？
+
+<div class="page"/>
+
+### 5. <ruby>敵<rt>てき</rt></ruby>のプログラム
+
+- コスチュームを 2 つ<ruby>用意<rt>ようい</rt></ruby>します
+
+  1. <ruby>敵<rt>てき</rt></ruby>が<ruby>上下<rt>じょうげ</rt></ruby>に<ruby>動<rt>うご</rt></ruby>いているときの<ruby>見<rt>み</rt></ruby>た<ruby>目<rt>め</rt></ruby>
+  2. <ruby>敵<rt>てき</rt></ruby>がビームにあたったときの<ruby>見<rt>み</rt></ruby>た<ruby>目<rt>め</rt></ruby>
+
+  <img src="./images/enemy-costume.png" width="300">
+
+> チャレンジ
+>
+> <ruby>敵<rt>てき</rt></ruby>のコスチュームを<ruby>好<rt>す</rt></ruby>きな<ruby>組<rt>く</rt></ruby>み<ruby>合<rt>あ</rt></ruby>わせに<ruby>変<rt>か</rt></ruby>えてみよう
+
+<img src="./images/enemy-program.png" width="300" align="left" style="margin-right:20px;">
+
+**<span style="color:red;">①</span>ゲームをスタートしたら<ruby>敵<rt>てき</rt></ruby>が<ruby>出<rt>で</rt></ruby>てくる**
+
+「<ruby>表示<rt>ひょうじ</rt></ruby>する」と「コスチュームを〜にする」を<ruby>組<rt>く</rt></ruby>み<ruby>合<rt>あ</rt></ruby>わせて<ruby>敵<rt>てき</rt></ruby>が<ruby>出<rt>で</rt></ruby>てくるようにします。
+
+**<span style="color:blue;">②</span>ビームに<ruby>当<rt>あ</rt></ruby>たるまで<ruby>上下<rt>じょうげ</rt></ruby>に<ruby>動<rt>うご</rt></ruby>く**
+
+「ずっと」と「もし」の<ruby>組<rt>く</rt></ruby>み<ruby>合<rt>あ</rt></ruby>わせで<ruby>敵<rt>てき</rt></ruby>を<ruby>上下<rt>じょうげ</rt></ruby>に<ruby>動<rt>うご</rt></ruby>かします。  
+「イベント」にある「〜まで<ruby>繰<rt>く</rt></ruby>り<ruby>返<rt>かえ</rt></ruby>す」と「<ruby>調<rt>しら</rt></ruby>べる」にある「〜に<ruby>触<rt>ふ</rt></ruby>れた」を<ruby>組<rt>く</rt></ruby>み<ruby>合<rt>あ</rt></ruby>わせると、ビームに<ruby>当<rt>あ</rt></ruby>たるまでの<ruby>敵<rt>てき</rt></ruby>の<ruby>動<rt>うご</rt></ruby>きが<ruby>作<rt>つく</rt></ruby>れます。
+
+**<span style="color:green;">③</span>ビームに<ruby>当<rt>あ</rt></ruby>たったら「やられた！」と<ruby>言<rt>い</rt></ruby>って<ruby>消<rt>き</rt></ruby>える**
+
+コスチュームを<ruby>変<rt>か</rt></ruby>えた<ruby>後<rt>あと</rt></ruby>に、<ruby>敵<rt>てき</rt></ruby>に「やられた！」と<ruby>言<rt>い</rt></ruby>わせて「<ruby>隠<rt>かく</rt></ruby>す」で<ruby>消<rt>け</rt></ruby>しています。
+
+<br>
+
+**参考図書**  
+小学生から楽しむきらきら Ruby プログラミング  
+高尾宏治・藤村健吾 著、 まつもとゆきひろ 監修
