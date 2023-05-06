@@ -5,5 +5,6 @@
 - テキスト
   - [lesson01 初級](text/lesson01/README.md)
   - [lesson02 ステップアップ](text/lesson02/README.md)
+  - [lesson03 ステップアップ 2](text/lesson03/README.md)
   - [PDF ファイル](text/pdf)
 - [当日の流れ](text/script.md)
