@@ -81,7 +81,10 @@
 
   <img src="images/cat-program-01.png" width="200">
 
-<br style="clear:both;">
+> チャレンジ
+>
+> ここまでのプログラムだと、ビームが<ruby>敵<rt>てき</rt></ruby>に<ruby>当<rt>あ</rt></ruby>たっても<ruby>消<rt>き</rt></ruby>えずに、<ruby>後<rt>うし</rt></ruby>ろまで<ruby>突<rt>つ</rt></ruby>き<ruby>抜<rt>ぬ</rt></ruby>けてしまいます。  
+> 敵に当たったら消えるようにビームのプログラムを変えてみましょう。
 
 **参考図書**  
 小学生から楽しむきらきら Ruby プログラミング (高尾宏治・藤村健吾 著、 まつもとゆきひろ 監修)
