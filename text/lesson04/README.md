@@ -39,35 +39,11 @@
 
 <div class="page"/>
 
-### 2. <ruby>味方<rt>みかた</rt></ruby>が<ruby>敵<rt>てき</rt></ruby>に<ruby>当<rt>あ</rt></ruby>たったときにゲームオーバーになるようにしよう
+### 2. <ruby>味方<rt>みかた</rt></ruby>が<ruby>敵<rt>てき</rt></ruby>に<ruby>当<rt>あ</rt></ruby>たったときに<ruby>敵<rt>てき</rt></ruby>が<ruby>止<rt>と</rt></ruby>まるようにしよう
 
-これまでのプログラムだと、<ruby>味方<rt>みかた</rt></ruby>が<ruby>敵<rt>てき</rt></ruby>に<ruby>当<rt>あ</rt></ruby>たっても<ruby>何<rt>なに</rt></ruby>も<ruby>起<rt>お</rt></ruby>きず、<ruby>左端<rt>ひだりはし</rt></ruby>に<ruby>敵<rt>てき</rt></ruby>がたくさんたまってしまいます。
+これまでのプログラムだと、<ruby>味方<rt>みかた</rt></ruby>が<ruby>敵<rt>てき</rt></ruby>に<ruby>当<rt>あ</rt></ruby>たってから「やられた！」と<ruby>言<rt>い</rt></ruby>い<ruby>終<rt>お</rt></ruby>わるまでの<ruby>間<rt>あいだ</rt></ruby>、<ruby>敵<rt>てき</rt></ruby>がずっと<ruby>動<rt>うご</rt></ruby>いています
 
-  <img src="images/message-01.png" width="400">
-
-<ruby>味方<rt>みかた</rt></ruby>が<ruby>敵<rt>てき</rt></ruby>に<ruby>当<rt>あ</rt></ruby>たったときは、<ruby>敵<rt>てき</rt></ruby>の<ruby>動<rt>うご</rt></ruby>きが<ruby>止<rt>と</rt></ruby>まるようにしてみましょう。
-
-- <ruby>味方<rt>みかた</rt></ruby>のプログラムに<ruby>緑<rt>みどり</rt></ruby>の<ruby>旗<rt>はた</rt></ruby>が<ruby>押<rt>お</rt></ruby>されたときを<ruby>追加<rt>ついか</rt></ruby>して、<ruby>味方<rt>みかた</rt></ruby>がやられたときも「やられた！」と<ruby>言<rt>い</rt></ruby>うようにしましょう
-
-  <img src="images/message-02.png" width="300">
-
-  - コスチューム2はやられたときのコスチュームを<ruby>自由<rt>じゆう</rt></ruby>に<ruby>追加<rt>ついか</rt></ruby>してみましょう
-
-<div class="page"/>
-
-<ruby>次<rt>つぎ</rt></ruby>に「<ruby>味方<rt>みかた</rt></ruby>に<ruby>敵<rt>てき</rt></ruby>が<ruby>当<rt>あ</rt></ruby>たったら<ruby>止<rt>と</rt></ruby>まる」ようにしたいですが、どうすればよいでしょうか？
-
-- <ruby>試<rt>ため</rt></ruby>しに<ruby>以下<rt>いか</rt></ruby>のように、<ruby>敵<rt>てき</rt></ruby>のプログラムで<ruby>味方<rt>みかた</rt></ruby>に<ruby>当<rt>あ</rt></ruby>たったことを<ruby>調<rt>しら</rt></ruby>べて<ruby>動<rt>うご</rt></ruby>きを<ruby>止<rt>と</rt></ruby>めるとどうなるでしょう？
-
-  <img src="images/message-03.png" width="300">
-
-- 「すべてを<ruby>止<rt>と</rt></ruby>める」を<ruby>使<rt>つか</rt></ruby>うとプログラムが<ruby>全部止<rt>ぜんぶと</rt></ruby>まってしまうため、クローンがなくなるので<ruby>敵<rt>てき</rt></ruby>もみんな<ruby>消<rt>き</rt></ruby>えてしまいます
-
-- では「このスクリプトを<ruby>止<rt>と</rt></ruby>める」だとどうでしょうか
-
-  <img src="images/message-04.png" width="300">
-
-  - 味方<rt>みかた</rt></ruby>に<ruby>当<rt>あ</rt></ruby>たった<ruby>敵<rt>てき</rt></ruby>だけが<ruby>止<rt>と</rt></ruby>まり、<ruby>他<rt>ほか</rt></ruby>の<ruby>敵<rt>てき</rt></ruby>は<ruby>動<rt>うご</rt></ruby>いたままです
+<ruby>味方<rt>みかた</rt></ruby>が<ruby>敵<rt>てき</rt></ruby>に<ruby>当<rt>あ</rt></ruby>たったときは、<ruby>敵<rt>てき</rt></ruby>の<ruby>動<rt>うご</rt></ruby>きが<ruby>止<rt>と</rt></ruby>まるようにしてみましょう。どうすればよいでしょうか？
 
 このようなときに「メッセージ」というものを<ruby>使<rt>つか</rt></ruby>います。
 
@@ -75,24 +51,22 @@
 
 - 「イベント」にある「メッセージ1を<ruby>送<rt>おく</rt></ruby>る」を、<ruby>味方<rt>みかた</rt></ruby>のプログラムで「やられた！」と<ruby>言<rt>い</rt></ruby>う<ruby>前<rt>まえ</rt></ruby>に<ruby>追加<rt>ついか</rt></ruby>します
 
-  <img src="images/message-05.png" width="300">
+  <img src="images/message-001.png" width="300">
 
 - 「メッセージ１」のままだとわかりにくいので、メッセージに<ruby>名前<rt>なまえ</rt></ruby>をつけます
 - 「メッセージ１」をクリックして「<ruby>新<rt>あたら</rt></ruby>しいメッセージ」をクリックします
 
-  <img src="images/message-06.png" width="300">
+  <img src="images/message-002.png" width="300">
 
 - メッセージに「ゲームオーバー」という<ruby>名前<rt>なまえ</rt></ruby>をつけてOKをクリックします
 
-  <img src="images/message-07.png" width="300">
+  <img src="images/message-003.png" width="300">
 
-  <img src="images/message-08.png" width="300">
-
-<div class="page"/>
+  <img src="images/message-004.png" width="300">
 
 - <ruby>敵<rt>てき</rt></ruby>のプログラムで「ゲームオーバーを<ruby>受<rt>う</rt></ruby>け<ruby>取<rt>と</rt></ruby>ったとき」に「スプライトの<ruby>他<rt>ほか</rt></ruby>のスクリプトを<ruby>止<rt>と</rt></ruby>める」ようにします
 
-  <img src="images/message-09.png" width="300">
+  <img src="images/message-005.png" width="300">
 
   - 「スプライトの<ruby>他<rt>ほか</rt></ruby>のスクリプトを<ruby>止<rt>と</rt></ruby>める」は、<ruby>同<rt>おな</rt></ruby>じスプライトの<ruby>中<rt>なか</rt></ruby>でこのブロックが<ruby>置<rt>お</rt></ruby>かれていない<ruby>他<rt>ほか</rt></ruby>のプログラムを<ruby>止<rt>と</rt></ruby>めます
 
