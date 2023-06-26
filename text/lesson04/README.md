@@ -12,7 +12,7 @@
 
   <img src="images/variable-01.png" width="300">
 
-- 「<ruby>新<rt>あたら</rt></ruby>しい<ruby>変数名<rt>変数名</rt></ruby>」のところに「<ruby>点数<rt>てんすう</rt></ruby>」という<ruby>名前<rt>なまえ</rt></ruby>をつけてOKをクリックします
+- 「<ruby>新<rt>あたら</rt></ruby>しい<ruby>変数名<rt>へんすうめい</rt></ruby>」のところに「<ruby>点数<rt>てんすう</rt></ruby>」という<ruby>名前<rt>なまえ</rt></ruby>をつけてOKをクリックします
 
   <img src="images/variable-02.png" width="300">
 
