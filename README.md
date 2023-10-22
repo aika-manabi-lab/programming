@@ -9,5 +9,6 @@
   - [lesson04 ステップアップ 3](text/lesson04/README.md)
   - [iRobot Root プログラミング](text/irobot-root/README.md)
   - [ペン](text/pen/README.md)
+  - [ジャンプ](text/jump/README.md)
   - [PDF ファイル](text/pdf)
 - [当日の流れ](text/script.md)
