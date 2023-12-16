@@ -10,5 +10,7 @@
   - [iRobot Root プログラミング](text/irobot-root/README.md)
   - [ペン](text/pen/README.md)
   - [ジャンプ](text/jump/README.md)
+  - [経路](text/routing/README.md)
+  - [関数](text/function/README.md)
   - [PDF ファイル](text/pdf)
 - [当日の流れ](text/script.md)
