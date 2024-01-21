@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="content-language" content="ja">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src * blob: data: gap://ready file; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval';">
+<script src="/lib/onsenui/js/onsenui.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/lib/onsenui/css/onsenui.css">
+<link rel="stylesheet" href="/lib/onsenui/css/onsen-css-components.css">
+<script src="scripts/apps.js"></script>
+<link rel="stylesheet" href="styles/apps.css">
+<title>クロスワードde英単語（小中学生用）</title>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="info">
+			<div id="stage">
+				<div class="info_label">Stage</div>
+				<div class="info_value"></div>
+			</div>
+			<div id="score">
+				<div class="info_label">Score</div>
+				<div class="info_value"></div>
+			</div>
+			<div id="help">
+				<div class="info_label">Help</div>
+				<div><ons-icon icon="md-help" size="32px" onclick="ShowWizard()"></ons-icon></div>
+			</div>
+		</div>
+		<audio id="correct" preload="auto">
+			<source src="sounds/correct2.mp3" type="audio/mp3">
+		</audio>
+		<audio id="clear_pazzle" preload="auto">
+			<source src="sounds/Phrase03-1.mp3" type="audio/mp3">
+		</audio>
+		<div id="disp_puzzle">
+			<canvas id="canvas_puzzle"></canvas>
+			<div id="message"></div>
+		</div>
+		<div id="hint_area">
+			<div class="my-btn" id="hint_button" onclick="SpeakHint()">
+				<ons-icon icon="md-hearing"></icon>
+			</div>
+			<div id="hint_desc">
+				<!-- ここにヒント情報が入ります。-->
+			</div>
+		</div>
+		<div id="char_palette">
+			<div class="my-btn" id="palette_button" onclick="StartRec()">
+				<ons-icon icon="md-mic" style="padding-left:8px;"></icon>
+			</div>
+			<div id="palette_desc">
+				<!-- ここに文字パレットが入ります。-->
+			</div>
+		</div>
+	</div>
+	<ons-dialog id="help_wizard" cancelable>
+		<img id="wizard_pic" src='images/step2.png'>
+	</ons-dialog>
+  </body>
+</html>

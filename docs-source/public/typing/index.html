@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+	<title>ブラインド・タッチの練習</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+	<link rel="icon" href="favicon.ico">
+	<style>
+		body {
+			background-color: black;
+			color:green;
+		}	
+		h1 {
+			text-align:center;
+		}
+		body, p {
+			font-family:monospace, serif;
+			font-size:larger;
+		}
+		#last {
+			/* font-weight: bold;*/
+		}
+		#cursor {
+			color:white;
+		}
+		#cursor::after {
+			content: "\02588";
+		}
+		.show {
+			display:inline-block;
+		}
+		.hide {
+			display:none;
+		}
+		.info {
+			text-align: right;
+		}
+	</style>
+<script>
+
+const SPEED = 30
+let lessons = [
+	{	/* 0 */
+		num: "はじめに",
+		title: "はじめに",
+		msg:[
+			"キーボードを見ないで入力できるようになると、かっこいいね！",
+			"このサイトで毎日練習すれば、ブラインド・タッチができるようになるよ。",
+			"練習を終了する時は、[Esc]キーを押してね。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "",			// 練習するキー。ここでは練習無し
+		speed: 0,				// 次のレッスンに進む条件　例えば毎時20ワード
+	},
+	{	/* 1 */
+		num: "九級",
+		title: "ホーム・ポジション（右手）練習１",
+		msg:[
+			"右手のホーム・ポジションの練習をしよう。",
+			"右手の人差指を[Ｊ]、中指を[Ｋ], 薬指を[Ｌ],小指を[；]の上におこう。",
+			"[Ｊ]キーには突起がついているのを、指で触って確認しよう。",
+			"スペースキー（空白）は、左右どちらの親指でもいいよ。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "jkl",
+		speed: 20,
+	},
+	{	/* 2 */
+		num: "九級",
+		title: "ホーム・ポジション（右手）練習２",
+		msg:[
+			"引き続き右手のホーム・ポジションの練習をしよう。",
+			"キーボードは見てはいけないよ。間違いを恐れず、タイプしよう。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "jkl;",
+		speed: 20,
+	},
+	{	/* 3 */
+		num: "九級",
+		title: "ホーム・ポジション（左手）練習１",
+		msg:[
+			"左手のホーム・ポジションの練習をしよう。",
+			"右手の人差指を[Ｆ]、中指を[Ｄ], 薬指を[Ｓ],小指を[Ａ]の上におこう。",
+			"[Ｆ]キーには突起がついているのを、指で触って確認しよう。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "fdsa",
+		speed: 20,
+	},
+	{	/* 4 */
+		num: "九級",
+		title: "ホーム・ポジション（両手）練習１",
+		msg:[
+			"ここからは両手のホーム・ポジションの練習をします。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "asdfjkl;",
+		speed: 20,
+	},
+	{	/* 5 */
+		num: "九級",
+		title: "ホーム・ポジション（両手）練習２",
+		msg:[
+			"[Ｇ]は、左手の人差指で押します。",
+			"[Ｈ]は、右手の人差指で押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "asdfghjkl;",
+		speed: 20,
+	},
+	{	/* 6 */
+		num: "八級",
+		title: "人差指の上の段（その１）",
+		msg:[
+			"おめでとう。八級に昇級しました。",
+			"[Ｒ]は、左手の人差指で押します。",
+			"[Ｕ]は、右手の人差指で押します。",
+			"上の段を押したら、指を素早くホームポジションに戻してね。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "frju",
+		speed: 20,
+	},
+	{	/* 7 */
+		num: "八級",
+		title: "人差指の上の段（その２）",
+		msg:[
+			"今まで覚えたキーに[Ｒ]と[Ｕ]を混ぜるよ。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "ruasdfghjkl;ru",
+		speed: 20,
+	},
+	{	/* 8 */
+		num: "八級",
+		title: "人差指の上の段（その３）",
+		msg:[
+			"[Ｔ]は、左手の人差指で押します。",
+			"[Ｙ]は、右手の人差指で押します。",
+			"上の段を押したら、指を素早くホームポジションに戻してね。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "tfdjyk",
+		speed: 20,
+	},
+	{	/* 9 */
+		num: "八級",
+		title: "人差指の上の段（その４）",
+		msg:[
+			"今まで覚えたキーに[Ｔ]と[Ｙ]を混ぜるよ。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "tyasdtgrfujyhkl;",
+		speed: 20,
+	},
+	{	/* 10 */
+		num: "八級",
+		title: "中指の上の段（その１）",
+		msg:[
+			"[Ｅ]は、左手の中指で押します。",
+			"[Ｉ]は、右手の中指で押します。",
+			"上の段を押したら、指を素早くホームポジションに戻してね。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "defjki",
+		speed: 20,
+	},
+	{	/* 11 */
+		num: "八級",
+		title: "中指の上の段（その２）",
+		msg:[
+			"今まで覚えたキーに[Ｅ]と[Ｉ]を混ぜるよ。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "eiasdfghjkl;rtyuei",
+		speed: 20,
+	},
+	{	/* 12 */
+		num: "八級",
+		title: "薬指の上の段(その１)",
+		msg:[
+			"[Ｗ]は、左手の薬指で押します。",
+			"[Ｏ]は、右手の薬指で押します。",
+			"上の段を押したら、指を素早くホームポジションに戻してね。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "swfjlo",
+		speed: 20,
+	},
+	{	/* 13 */
+		num: "八級",
+		title: "薬指の上の段（その２）",
+		msg:[
+			"今まで覚えたキーに[Ｗ]と[Ｏ]を混ぜるよ。",	
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "woasdfghjkl;rtyueiwo",
+		speed: 20,
+	},
+	{	/* 14 */
+		num: "八級",
+		title: "子指の上の段（その１）",
+		msg:[
+			"[Ｑ]は、左手の子指で押します。",
+			"[Ｐ]は、右手の子指で押します。",
+			"上の段を押したら、指を素早くホームポジションに戻してね。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "ojpfqa",
+		speed: 20,
+	},
+	{	/* 15 */
+		num: "八級",
+		title: "子指の上の段（その２）",
+		msg:[
+			"今まで覚えたキーに[Ｑ]と[Ｐ]を混ぜるよ。",	
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "qpasdfghjkl;rtyueiwoqp",
+		speed: 20,
+	},
+	{	/* 16 */
+		num: "七級",
+		title: "人差指の下の段（その１）",
+		msg:[
+			"おめでとう。七級に昇級しました。",
+			"[Ｖ]は、左手の人差指で押します。",
+			"[Ｍ]は、右手の人差指で押します。",
+			"上の段を押したら、指を素早くホームポジションに戻してね。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "vfgjmh",
+		speed: 20,
+	},
+	{	/* 17 */
+		num: "七級",
+		title: "人差指の下の段（その２）",
+		msg:[
+			"今まで覚えたキーに[Ｖ]と[Ｍ]を混ぜるよ。",	
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "vmasdfghjkl;rtyueiwoqpvm",
+		speed: 20,
+	},
+	{	/* 18 */
+		num: "七級",
+		title: "人差指の下の段（その３）",
+		msg:[
+			"[Ｂ]は、左手の人差指で押します。",
+			"[Ｎ]は、右手の人差指で押します。",
+			"上の段を押したら、指を素早くホームポジションに戻してね。",
+			"[Ｂ]は遠いから間違えやすいです。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "bfvjmn",
+		speed: 20,
+	},
+	{	/* 19 */
+		num: "七級",
+		title: "人差指の下の段（その４）",
+		msg:[
+			"今まで覚えたキーに[Ｂ]と[Ｎ]を混ぜるよ。",	
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "bnasdfghjkl;rtyueiwoqpvmbn",
+		speed: 20,
+	},
+	{	/* 20 */
+		num: "七級",
+		title: "中指の下の段",
+		msg:[
+			"[Ｃ]は、左手の中指で押します。",
+			"[，]は、右手の中指で押します。",
+			"上の段を押したら、指を素早くホームポジションに戻してね。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "cfdj,k",
+		speed: 20,
+	},
+	{	/* 21 */
+		num: "七級",
+		title: "中指の下の段",
+		msg:[
+			"今まで覚えたキーに[Ｃ]と[，]を混ぜるよ。",	
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "c,asdfghjkl;rtyueiwoqpvmbnc,",
+		speed: 20,
+	},
+	{	/* 22 */
+		num: "七級",
+		title: "薬指の下の段",
+		msg:[
+			"[Ｘ]は、左手の薬指で押します。",
+			"[．]は、右手の薬指で押します。",
+			"上の段を押したら、指を素早くホームポジションに戻してね。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "xfslj.",
+		speed: 20,
+	},
+	{	/* 23 */
+		num: "七級",
+		title: "薬指の下の段",
+		msg:[
+			"今まで覚えたキーに[Ｘ]と[．]を混ぜるよ。",	
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "x.asdfghjkl;rtyueiwoqpvmbnc,x.",
+		speed: 20,
+	},
+	{	/* 24 */
+		num: "七級",
+		title: "子指の下の段",
+		msg:[
+			"[Ｚ]は、左手の子指で押します。",
+			"[／]は、右手の子指で押します。",
+			"上の段を押したら、指を素早くホームポジションに戻してね。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "zfaj/;",
+		speed: 20,
+	},
+	{	/* 25 */
+		num: "七級",
+		title: "子指の下の段",
+		msg:[
+			"今まで覚えたキーに[Ｚ]と[／]を混ぜるよ。",	
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "z/asdfghjkl;rtyueiwoqpvmbnc,x.z/",
+		speed: 20,
+	},
+	{	/* 26 */
+		num: "六級",
+		title: "シフトキー（左）",
+		msg: [
+			"おめでとう。六級に昇級しました。",
+			"今回は、シフト・キーの使い方を学びます。",
+			"シフトキーを押しながら、文字を入力すると大文字になります。",
+			"右指で文字を入力する場合は、シフトキーは左小指を使います。",
+			"左指で文字を入力する場合は、シフトキーは右小指を使います。",
+			"左のシフトキーの練習をします。[Enter]キーを押したら練習を開始するよ。"
+
+		],
+		use_key:"HJKLNMYUIOP",
+		speed: 20,
+	},
+	{	/* 27 */
+		num: "六級",
+		title: "シフトキー（右）",
+		msg: [
+			"右の小指で右側のシフト・キーを押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "GFDSATREWQZXCVB",
+		speed: 20,
+	},
+	{	/* 28 */
+		num: "六級",
+		title: "シフトキー（両方）",
+		msg: [
+			"両方のシフトキーを使って入力します。",
+			"文字を入力するほうの反対側の手の小指でシフトキーを押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "gfdsahjkltrewqyuiopzxcvbnmASDFGHJKLQWERTYUIOPZXCVBNM",
+		speed: 20,
+	},
+	{	/* 29 */
+		num: "六級",
+		title: "シフトキー（両方）",
+		msg: [
+			"シフトキーを押しながら[；]キーを押すと、[＋]が入力されます。",
+			"シフトキーを押しながら[：]キーを押すと、[＊]が入力されます。",
+			"シフトキーを押しながら[，]キーを押すと、[＜]が入力されます。",
+			"シフトキーを押しながら[．]キーを押すと、[＞]が入力されます。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "jkl;+*<>",
+		speed: 20,
+	},
+	{	/* 30 */
+		num: "六級",
+		title: "シフトキー（両方）",
+		msg: [
+			"今まで覚えたキーに[＋]・[＊]・[＜]・[＞]を混ぜるよ。",	
+			"両方のシフトキーを使って入力します。",
+			"文字を入力するほうの反対側の手の小指でシフトキーを押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "gfdsahjkltrewqyuiopzxcvbnm+*<>",
+		speed: 20,
+	},
+	{	/* 31 */
+		num: "五級",
+		title: "数字（その１）",
+		msg: [
+			"おめでとう。五級に昇級しました。",
+			"ここからは実際の英単語で練習します。英単語も覚えられて一石二鳥だね。",
+			"五級では数字キーを学びます。遠い位置にあるので覚えるのが大変ですが、がんばりましょう。",
+			"最初は、[４]と[７]キーです。",
+			"[４]キーは、左手の人差指で押します。",
+			"[７]キーは、右手の人差指で押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "fruit vegetable apple banana 4 7 44 77",
+		speed: 20,
+	},
+	{	/* 32 */
+		num: "五級",
+		title: "数字（その２）",
+		msg: [
+			"[３]キーは、左手の中指で押します。",
+			"[８]キーは、右手の中指で押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "carrot cherry grapes lemon 3 8 33 88",
+		speed: 20,
+	},
+	{	/* 33 */
+		num: "五級",
+		title: "数字（その３）",
+		msg: [
+			"[２]キーは、左手の薬指で押します。",
+			"[９]キーは、右手の薬指で押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "melon orange peach pineapple 2 9 22 99",
+		speed: 20,
+	},
+	{	/* 34 */
+		num: "五級",
+		title: "数字（その４）",
+		msg: [
+			"[１]キーは、左手の子指で押します。",
+			"[０]キーは、右手の子指で押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "strawberry tomato watermelon number 1 0 11 00",
+		speed: 20,
+	},
+	{	/* 35 */
+		num: "五級",
+		title: "数字（その５）",
+		msg: [
+			"[５]キーは、左手の人差指で押します。",
+			"[６]キーは、右手の人差指で押します。",
+			"遠いキーなので間違いやすいです。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "one two three four 5 6 55 66",
+		speed: 20,
+	},
+	{	/* 36 */
+		num: "五級",
+		title: "数字（その６）",
+		msg: [
+			"０から９まで混ぜて出題します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_key: "0123456789",
+		speed: 20,
+	},
+	{	/* 37 */
+		num: "四級",
+		title: "記号（その１）",
+		msg: [
+			"おめでとう。四級に昇級しました。",
+			"四級からはまだ教えていない記号の入力を練習するよ。",
+			"最初は数字キーのところの記号です。",
+			"Shiftキーを押しながら数字キーを押して、記号を入力します。",
+			"Shiftキーは文字入力の反対側の小指を使います。",
+			"[＄]は、右のShiftキーを押しながら[４]を押します。",
+			"[’]は、左のShiftキーを押しながら[７]を押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "$5 $8 $1 men's kids' Jhon's",
+		speed: 20,
+	},
+	{	/* 38 */
+		num: "四級",
+		title: "記号（その２）",
+		msg: [
+			"[＃]は、右のShiftキーを押しながら[３]を押します。",
+			"[（]は、左のShiftキーを押しながら[８]を押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "#cat #dog #fish #music ( (",
+		speed: 20,
+	},
+	{	/* 39 */
+		num: "四級",
+		title: "記号（その３）",
+		msg: [
+			"[”]は、右のShiftキーを押しながら[２]を押します。",
+			"[）]は、左のShiftキーを押しながら[９]を押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: '"Hello" "Good morning" "Good night" (six) (seven) (eight)',
+		speed: 20,
+	},
+	{	/* 40 */
+		num: "四級",
+		title: "記号（その４）",
+		msg: [
+			"[！]は、右のShiftキーを押しながら[１]を押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "Wow! Amazing! Great! Cool! Fantastic!",
+		speed: 20,
+	},
+	{	/* 41 */
+		num: "四級",
+		title: "記号（その５）",
+		msg: [
+			"[％]は、右のShiftキーを押しながら[５]を押します。",
+			"[＆]は、右のShiftキーを押しながら[６]を押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "10% 5% 3% 8% milk & egg &",
+		speed: 20,
+	},
+	{	/* 42 */
+		num: "三級",
+		title: "総合＋記号（その１）",
+		msg: [
+			"おめでとう。三級に昇級しました。",
+			"右手小指で[＠]を押します。",
+			"入力速度が毎分25ワードを超えたら合格です。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "math music @ classroom computer cooking gym pencil",
+		speed: 25,
+	},
+	{	/* 43 */
+		num: "三級",
+		title: "総合＋記号（その２）",
+		msg: [
+			"Shiftキーを押しながら右手小指で[＠]を押して[‘]を入力します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "bookstore hospital house library park station ` `",
+		speed: 25,
+	},
+	{	/* 44 */
+		num: "三級",
+		title: "総合＋記号（その３）",
+		msg: [
+			"右手小指で[ー]を入力します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "street zoo bus taxi job - - doctor",
+		speed: 25,
+	},
+	{	/* 45 */
+		num: "三級",
+		title: "総合＋記号（その４）",
+		msg: [
+			"Shiftを押しながら右手小指で[ー]を押すと[＝]が入力できます。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "plus minus = 1 2 3",
+		speed: 25,
+	},
+	{	/* 46 */
+		num: "三級",
+		title: "総合＋記号（その５）",
+		msg: [
+			"右手小指で[［]と[］]を押します。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "[box] chair calendar [book] clock cup desk",
+		speed: 25,
+	},
+	{	/* 47 */
+		num: "三級",
+		title: "総合＋記号（その６）",
+		msg: [
+			"Shiftキーを押しながら右手小指で[［]と[］]を押すと[｛][｝]が入力できます。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "{table} bag umbrella watch pants {hat} shirt",
+		speed: 25,
+	},
+	{	/* 48 */
+		num: "二級",
+		title: "総合＋記号（その７）",
+		msg: [
+			"おめでとう。二級に昇級しました。",
+			"右手小指で[\]、Shiftキーを押しながら[\]を押すと[＿]が入力できます。",
+			"ここは一番押しにくいところなのでくり返し練習しよう。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "\ \ _ _ guitar drum violin piano",
+		speed: 25,
+	},
+	{	/* 49 */
+		num: "二級",
+		title: "総合＋記号（その８）",
+		msg: [
+			"右手小指で[\]、Shiftキーを押しながら[\]を押すと[＿]が入力できます。",
+			"ここは一番押しにくいところなのでくり返し練習しよう。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "\ \ _ _ guitar drum violin piano",
+		speed: 25,
+	},
+	{	/* 50 */
+		num: "二級",
+		title: "総合＋記号（その９）",
+		msg: [
+			"右手小指で[＾]、Shiftキーを押しながら[＾]を押すと[～]が入力できます。",
+			"ここも一番押しにくいところなのでくり返し練習しよう。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "^ ^ ~ ~ sport bat racket baseball football tennis",
+		speed: 25,
+	},
+	{	/* 50 */
+		num: "二級",
+		title: "総合＋記号（その１０）",
+		msg: [
+			"次が場所を覚える最後のキーになります。",
+			"右手小指で[￥]、Shiftキーを押しながら[￥]を押すと[｜]が入力できます。",
+			"なお、￥を入力しても、画面上では[\]となります。",
+			"バックスラッシュを入力するキーは右下にもあります。",
+			"ここは一番押しにくいところなのでくり返し練習しよう。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "\ \ | | Japan Italy China Korea France Canada country America",
+		speed: 25,
+	},
+	{	/* 50 */
+		num: "一級",
+		title: "総合(その１)",
+		msg: [
+			"おめでとう。一級に合格しました。",
+			"ここからは、毎分４０ワードを以上の入力を訓練します。",
+			"毎分４０ワード以上入力できれば一人前です。",
+			"このセッションでは、毎分３０ワード以上なら合格です。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "color red black blue green yellow orange pink white brown purple",
+		speed: 30,
+	},
+	{	/* 51 */
+		num: "一級",
+		title: "総合(その２)",
+		msg: [
+			"このセッションでは、毎分３５ワード以上なら合格です。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "shape circle diamond heart rectangle square triangle star",
+		speed: 35,
+	},
+	{	/* 52 */
+		num: "一級",
+		title: "総合(その３)",
+		msg: [
+			"このセッションでは、毎分３５ワード以上なら合格です。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "morning afternoon night today tomorrow summer spring winter autumn fall",
+		speed: 35,
+	},
+	{	/* 53 */
+		num: "一級",
+		title: "総合(その４)",
+		msg: [
+			"このセッションでは、毎分３５ワード以上なら合格です。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "Monday Tursday Wednesday Thursday Friday Saturday Sunday",
+		speed: 35,
+	},
+	{	/* 54 */
+		num: "一級",
+		title: "総合(その５)",
+		msg: [
+			"このセッションでは、毎分３５ワード以上なら合格です。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "January Febuary March April May June July August September October November December",
+		speed: 35,
+	},
+	{	/* 55 */
+		num: "一級",
+		title: "総合(その６)",
+		msg: [
+			"このセッションでは、毎分４０ワード以上なら合格です。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "ant bear cat animal chicken duck cow dog elephant fox grog hourse fox frog lion monkey",
+		speed: 40,
+	},
+	{	/* 55 */
+		num: "一級",
+		title: "総合(その７)",
+		msg: [
+			"このセッションでは、毎分４０ワード以上なら合格です。",
+			"[Enter]キーを押したら練習を開始するよ。"
+		],
+		use_word: "ear eye face hand head knee leg mouth nose shoulder teeth toe",
+		speed: 40,
+	},
+	{	/* 55 */
+		num: "一級",
+		title: "すべて終了",
+		msg: [
+			"おめでとう。もうあなたは立派な一人前です。",
+			"あとは他の練習ソフトや実戦で訓練しましょう。"
+		],
+		use_word: "",
+		speed: 40,
+	},
+];
+let end_lesson = {
+	title: "がんばったな！！",
+	msg: [
+		"また明日も練習しよう！",
+		"では、また。"
+	],
+}
+
+let level;
+let advice = "";
+		
+$(document).ready(async function(){
+	if (localStorage.getItem("level"))
+		level = parseInt(localStorage.getItem("level"));
+	else
+		level = 0;
+	SetEventHandler();
+	document.body.focus();
+	current_chapter = lessons[level];
+	Chapter();
+	BlinkCursor();
+	await MainLoop();
+	console.log("exit main");
+});
+
+
+async function MainLoop()
+{
+	while (!quit_training) {
+		switch (stage) {
+		case 0:
+			if (local_index >= current_chapter.msg.length) {
+				stage++;
+				skip_message = false;
+				wait_flag = false;
+				callback = WaitEnter;
+			}
+			else {
+				if (advice != "") {
+					await ShowMessage(advice);
+					advice = "";
+				}
+				else {
+					let guide = current_chapter.msg[local_index++];
+					await ShowMessage(guide);			
+				}
+			}
+			break;
+		case 1:
+			if (wait_flag)
+				stage++;
+			break;
+		case 2:
+			if ((current_chapter.use_key && current_chapter.use_key.length > 0) || (current_chapter.use_word))
+				await Training();
+			if (!quit_training && !abort_training) {
+				NextChapter();
+				stage = 0;
+			}
+
+		}
+		await sleep(100);
+	}
+	// どこまでやったのかを保存する
+	localStorage.setItem("level", String(level));
+	current_chapter = end_lesson;
+	Chapter();
+	for (;;) {
+		switch (stage) {
+		case 0:
+			if (local_index >= current_chapter.msg.length) {
+				stage++;
+				skip_message = false;
+				wait_flag = false;
+				callback = WaitEnter;
+			}
+			else {
+				if (advice != "") {
+					await ShowMessage(advice);
+					advice = "";
+				}
+				else {
+					let guide = current_chapter.msg[local_index++];
+					await ShowMessage(guide);			
+				}
+			}
+			break;
+		case 1:
+			CursorOff();
+			if (wait_flag)
+				stage++;
+			break;
+		}
+		await sleep(100);
+	}
+}
+
+let stage = 0;		// 0:説明の表示, 1:Enterキー待ち, 2:入力
+let local_index = 0;
+let current_chapter = null;
+
+function Chapter()
+{
+	$("#lesson_num").text(current_chapter.num);
+	$("#wpm").text("");
+	// タイトル
+	$("#lesson_title").text(current_chapter.title);
+	$("p").remove();
+	$("body").append("<p id='last'><span id='cursor'></span></p>");
+
+	callback = SkipMessage;
+	stage = 0;
+	local_index = 0;
+}
+
+
+let wait_flag = false;
+function WaitEnter()
+{
+	wait_flag = true;
+}
+
+async function NextChapter()
+{
+	level++;
+	if (level < lessons.length) {
+		current_chapter = lessons[level];
+		Chapter();
+	}
+	else
+		quit_training = true;
+}
+
+let inputs = "";
+let callback = null;
+let question = "";
+let input_end = false;
+let num_key = 0;
+let quit_training = false;
+let abort_training = false;
+let miss_keys = [];
+const IgnoreKeyCode = [
+	8,	// BS
+	9,	// Tab
+	16,	// Shift
+	17,	// Control
+	18,	// Alt
+	19,	// Pause
+	28,	// 変換
+	29,	// 無変換
+	33,	// PgUp
+	34,	// PgDn
+	35,	// End
+	36,	// Home
+	37,	// ←
+	38,	// ↑
+	39,	// →
+	40,	// ↓
+	45,	// Insert
+	46,	// Delete
+	91,	// Meta
+	93,	// Context Menu
+]
+function SetEventHandler()
+{
+	document.body.addEventListener("keydown", function(event) {
+		// console.log("keyCode=", event.keyCode, "key=", event.key);
+		if (IgnoreKeyCode.includes(event.keyCode))
+			return;
+		if (event.keyCode == 27) {	// Escは終了
+			quit_training = true;
+		}
+		else if (event.keyCode == 13) {	// Enterは特別
+			// Enterキー
+			if (callback)
+				callback();
+		}
+		else {
+			let check = inputs + event.key;
+			if (question.slice(0, check.length) == check) {
+				inputs += event.key;
+				$("#inputs").html(inputs + "<span id='cursor'></span>");
+				if (inputs.length == question.length) {
+					input_end = true;
+				}
+				num_key++;
+				let elipse = new Date().getTime() - start_time;
+				wpm = parseInt(num_key * 60000 / (5 * elipse));
+				$("#wpm").text(wpm + "ワード");
+			}
+			else {
+				Beep();
+				RegisterMissKey(event.key, question[inputs.length]);
+			}
+		}
+	});
+}
+
+function RegisterMissKey(wrong, correct)
+{
+	let index = miss_keys.findIndex(ele => ele.key == wrong);
+	if (index != -1) {
+		miss_keys[index].count++;
+	}
+	else {
+		let miss = {key: wrong, correct:correct, count:1};
+		miss_keys.push(miss);
+	}
+}
+
+function ReleaseEventHandler()
+{
+	document.body.removeEventListener("keydown", SetEventHandler);
+}
+
+let blink_status = 0;
+let cursor_timer;
+function BlinkCursor()
+{
+	cursor_timer = setInterval(ChangeCursor, 700);
+}
+
+function ChangeCursor()
+{
+	if (blink_status == 0)
+		$("#cursor").addClass("show").removeClass("hide");
+	else if (blink_status == 1)
+		$("#cursor").removeClass("show").addClass("hide");
+	blink_status++;
+	if (blink_status == 2)
+		blink_status = 0;
+}
+
+function CursorOff()
+{
+	clearInterval(cursor_timer);
+	$("#cursor").remove();
+}
+
+let show_message = "";
+let current_message = "";
+let skip_message = false;
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+
+async function ShowMessage(msg)
+{
+	show_message = msg;
+	current_message = "";
+	while (show_message != "") {
+		current_message += show_message.slice(0, 1);
+		show_message = show_message.slice(1);
+		$("#last").html(`${current_message}<span id='cursor'></span>`);
+		if (!skip_message)
+			await sleep(100);
+	}
+
+	$("#cursor").remove();
+	document.getElementById("last").id = "";
+	$("body").append("<p id='last'><span id='cursor'></span></p>");
+
+	if (!skip_message)
+		sleep(1000);
+}
+
+function SkipMessage()
+{
+	skip_message = true;
+}
+
+let start_time;
+let wpm = 0;			// word per minute
+async function Training()
+{
+//	if (current_chapter.time_limit == 0) {
+		// 時間制限なし訓練
+		input_end = false;
+		//start_time = new Date().getTime();
+		//end_time = start_time + 10 * 1000;			// 10秒間入力がない場合は中止
+		let training_count = 0;
+		do {
+			num_key = 0;
+			start_time = new Date().getTime();
+			let kunren = "";
+			if (current_chapter.use_key)
+				kunren = GenerateQuestion(current_chapter.use_key);
+			else
+				kunren = GenerateQuestion2(current_chapter.use_word);
+			TrainingSub(kunren);
+			await WaitKey(/*end_time*/);
+			input_end = false;
+			// 入力無しで10秒経過
+			//if (inputs == "") {
+			//	advice = "入力が無いので、中止しました。";
+			//	abort_training = true;
+			//	break;
+			//}
+			//else
+				training_count++;
+		} while (wpm < current_chapter.speed && training_count < 10);
+		console.log("End Training")
+//	}
+//	else {
+//		// 時間制限あり訓練（検定）
+//		start_time = new Date().getTime();
+//		end_time = start_time + current_chapter.time_limit * 1000;
+//		kunren_index = 0;
+//		input_end = true;
+//		num_word = 0;
+//		do {
+//			TrainingSub(current_chapter.kunren[kunren_index]);
+//			await WaitKey(end_time);
+//			kunren_index++;
+//			if (kunren_index >= current_chapter.kunren.length)
+//					kunren_index = 0;
+//			input_end = false;
+//
+//		} while (new Date().getTime() < end_time && !quit_training);
+//		console.log("End Training");
+//	}
+	// 結果の設定
+	if (advice == "") {
+		if (wpm < 25)
+			advice = "できたね！";
+		else if (wpm < 30)
+			advice = "よく頑張ったね！";
+
+		else if (wpm < 35)
+			advice = "すごいね！";
+		else
+			advice = "あなたは才能があるね。";
+	}
+}
+
+function TrainingSub(msg)
+{
+	inputs = "";
+	input_end = false;
+	question = msg;
+	$("#last").html(question);
+	document.getElementById("last").id = "";
+	$("body").append("<p id='last'><span id='inputs'><span id='cursor'></span></p>");
+}
+
+
+async function WaitKey(time_limit)
+{
+	while (!input_end && !quit_training) {
+		if (time_limit) {
+			let now = new Date().getTime();
+			if (now >= time_limit)
+				break;
+		}
+		await sleep(100);
+	}
+}
+function Beep()
+{
+	var audio = document.querySelector("audio");
+	audio.play();
+}
+
+function GenerateQuestion(str)
+{
+	let ret = "";
+	// console.log("GenerateQuestion:", str);
+	miss_keys.sort(function(a, b) {
+		if (a.count < b.count) return -1;
+		if (a.count > b.count) return 1;
+		return 0;
+	});
+	for (let i = 0; i < miss_keys.length; i++) {
+		if (str.indexOf(miss_keys[i].key) != -1) {
+			console.log("merge ", miss_keys[i].key);
+			str += miss_keys[i].key;
+			miss_keys.splice(i, 1);
+		}
+	}
+
+	for (let i = 0; i < 10; i++) {
+		for (let j = 0; j < 3; j++) {
+			let index = Math.floor(Math.random() * str.length);
+			ret += str[index];
+		}
+		ret += " ";
+	}
+	ret = ret.trim();
+	return ret;
+}
+
+function GenerateQuestion2(str)
+{
+	let ret = "";
+	let words = str.split(' ');
+	for (let i = 0; i < 10; i++) {
+		let index = Math.floor(Math.random() * words.length);
+		ret += words[index];
+		ret += " ";
+	}
+	ret = ret.trim();
+	return ret;
+}
+</script>
+</head>
+<body>
+	<audio preload="auto">
+		<source src="beep.wav" type="audio/wav">
+	</audio>
+	<h5 class="info">レッスン：<span id="lesson_num">0</span>　あなたの入力速度：<span id="wpm">10ワード</span></h5>
+	<h1 id="lesson_title">ブラインド・タッチの練習</h1>
+	<p id="last"></p>
+</body>
+</html>

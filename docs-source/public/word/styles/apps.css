@@ -1,0 +1,122 @@
+body {
+	margin:0;
+}
+#info {
+	position:relative;
+	background-color: blue;
+	height: 60px;
+}
+#stage {
+	float:left;
+	width:18%;
+	border: solid 2px blue;
+}
+#score {
+	float:left;
+	width:58%;
+	border: solid 2px blue;
+}
+#help {
+	float:right;
+	border: solid 2px blue;
+}
+.info_label {
+	font-size:16px;
+	line-height: 1em;
+	color:black;
+	text-align: left;
+}
+.info_value {
+	background-color: black;
+	color:white;
+	font-size: 32px;
+	line-height: 1em;
+	text-align: right;
+}
+
+#disp_puzzle {
+	position:relative;
+	background-color:white;
+}
+#message {
+	position:absolute;
+	left:0;
+	top:0;
+	font-size:60px;
+	color:red;
+	display:none;
+	align-items: center; /* 縦方向中央揃え */
+	justify-content: center; /* 横方向中央揃え */
+	transition: all 2000ms 0s ease;
+}
+#message.active {
+	color: rgba(0, 0, 0, 0);
+}
+
+#hint_area {
+  display: flex;
+  align-items: center;
+  background-color:yellow;
+}
+#hint_button {
+  width: 50px;
+  flex-grow:0;
+}
+
+#hint_desc {
+	font-size: 40px;
+	line-height: 1em;
+	display: -webkit-flex;
+  flex-grow:1;
+	/*display: flex;*/
+	-webkit-align-items: center; /* 縦方向中央揃え（Safari用） */
+	align-items: center; /* 縦方向中央揃え */
+	-webkit-justify-content: center; /* 横方向中央揃え（Safari用） */
+	justify-content: center; /* 横方向中央揃え */
+}
+
+#char_palette {
+  display: flex;
+  align-items: center;
+  background-color:orange;
+}
+
+#palette_button {
+  width: 50px;
+  flex-grow:0;
+}
+
+#palette_desc {
+	font-size: 40px;
+	display: -webkit-flex;
+	flex-wrap: wrap;
+	flex-grow:1;
+	/*display: flex;*/
+	-webkit-align-items: center; /* 縦方向中央揃え（Safari用） */
+	align-items: center; /* 縦方向中央揃え */
+	-webkit-justify-content: center; /* 横方向中央揃え（Safari用） */
+	justify-content: center; /* 横方向中央揃え */
+}
+
+.my-btn {
+	font-size:40px;
+	text-align: center;
+	width:50px;
+	height:50px;
+	color:blue;
+}
+.my-btn.active {
+	color: yellow;
+}
+.btn {
+	appearance: none;
+	font-size:25px;
+	text-align: center;
+	width: 50px;
+	height: 50px;
+	color: black;
+	background-color: white;
+	margin: 4px;
+	padding: 4px;
+	line-height: 1em;
+}
