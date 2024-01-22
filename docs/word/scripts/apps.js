@@ -21,7 +21,7 @@ var margin_right = 0;
 function MakeWizard() {
   for (var i = 1; i <= 13; i++) {
     var obj = {};
-    obj.src = "/word/images/step" + i + ".png";
+    obj.src = "images/step" + i + ".png";
     obj.buttons = [];
     if (i == 13) {
       button = {};
@@ -67,7 +67,7 @@ function ShowWizard(start_index) {
 function LoadPuzzle() {
   Puzzles = [];
   CurrentPuzzle = null;
-  let filename = "/word/data/stage" + Stage + ".json";
+  let filename = "data/stage" + Stage + ".json";
   console.log(filename);
   (async () => {
     const a = await fetch(filename);
