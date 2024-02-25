@@ -13,17 +13,72 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Link from "@mui/material/Link";
 import KeyboardIcon from "@mui/icons-material/KeyboardOutlined";
 import CrossWordIcon from "@mui/icons-material/SpellcheckOutlined";
+import TextIcon from "@mui/icons-material/LibraryBooksOutlined";
+import PdfIcon from "@mui/icons-material/TextSnippetOutlined";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import { themeOptions } from "./theme";
+import { Collapse } from "@mui/material";
 
 const theme = createTheme(themeOptions);
 
+type TextMenuItemProps = {
+  url: string;
+  title: string;
+};
+
+const TextMenuItem: React.FC<TextMenuItemProps> = ({ url, title }) => (
+  <ListItem disablePadding component="a" href={url}>
+    <ListItemButton sx={{ pl: 4 }}>
+      <ListItemIcon>
+        <PdfIcon />
+      </ListItemIcon>
+      <ListItemText primary={title} />
+    </ListItemButton>
+  </ListItem>
+);
+
+type OtherMenuItemProps = TextMenuItemProps & {
+  icon: React.ReactElement;
+};
+
+const OtherMenuItem: React.FC<OtherMenuItemProps> = ({ icon, url, title }) => (
+  <ListItem disablePadding component="a" href={url}>
+    <ListItemButton>
+      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemText primary={title} />
+    </ListItemButton>
+  </ListItem>
+);
+
+const textMenus: TextMenuItemProps[] = [
+  { url: "text/lesson01.pdf", title: "lesson 01 初級" },
+  { url: "text/lesson02.pdf", title: "lesson 02 ステップアップ その１" },
+  { url: "text/lesson03.pdf", title: "lesson 03 ステップアップ その２" },
+  { url: "text/lesson04.pdf", title: "lesson 04 ステップアップ その３" },
+  { url: "text/pen.pdf", title: "ペンを使ってみよう" },
+  { url: "text/routing.pdf", title: "スプライトを道に沿って移動させてみよう" },
+  { url: "text/jump.pdf", title: "スプライトをジャンプさせてみよう" },
+  { url: "text/function.pdf", title: "関数を使ってみよう" },
+  { url: "text/motion.pdf", title: "ビデオモーションセンサーを使ってみよう" },
+  { url: "text/irobot-root.pdf", title: "iRobot Root プログラミング" },
+];
+
+const otherMenus: OtherMenuItemProps[] = [
+  { icon: <KeyboardIcon />, url: "typing/index.html", title: "タイピング練習" },
+  {
+    icon: <CrossWordIcon />,
+    url: "word/index.html",
+    title: "英単語クロスワード",
+  },
+];
+
 function App() {
   const [open, setOpen] = React.useState(false);
-  const toggleDrawer = () => {
+  const toggleTextMenu = () => {
     setOpen(!open);
   };
 
@@ -74,30 +129,23 @@ function App() {
               >
                 <nav aria-label="main links">
                   <List>
-                    <ListItem
-                      disablePadding
-                      component="a"
-                      href="typing/index.html"
-                    >
-                      <ListItemButton>
-                        <ListItemIcon>
-                          <KeyboardIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="タイピング練習" />
-                      </ListItemButton>
-                    </ListItem>
-                    <ListItem
-                      disablePadding
-                      component="a"
-                      href="word/index.html"
-                    >
-                      <ListItemButton>
-                        <ListItemIcon>
-                          <CrossWordIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="英単語クロスワード" />
-                      </ListItemButton>
-                    </ListItem>
+                    <ListItemButton onClick={toggleTextMenu}>
+                      <ListItemIcon>
+                        <TextIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="テキスト" />
+                      {open ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                      <List component="div" disablePadding>
+                        {textMenus.map((props) => (
+                          <TextMenuItem {...props} />
+                        ))}
+                      </List>
+                    </Collapse>
+                    {otherMenus.map((props) => (
+                      <OtherMenuItem {...props} />
+                    ))}
                   </List>
                 </nav>
               </Paper>
