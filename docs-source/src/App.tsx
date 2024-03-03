@@ -17,6 +17,7 @@ import KeyboardIcon from "@mui/icons-material/KeyboardOutlined";
 import CrossWordIcon from "@mui/icons-material/SpellcheckOutlined";
 import TextIcon from "@mui/icons-material/LibraryBooksOutlined";
 import PdfIcon from "@mui/icons-material/TextSnippetOutlined";
+import DownloadIcon from "@mui/icons-material/DownloadOutlined";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
@@ -28,20 +29,39 @@ const theme = createTheme(themeOptions);
 type TextMenuItemProps = {
   url: string;
   title: string;
+  sample?: string;
 };
 
-const TextMenuItem: React.FC<TextMenuItemProps> = ({ url, title }) => (
-  <ListItem disablePadding component="a" href={url}>
-    <ListItemButton sx={{ pl: 4 }}>
-      <ListItemIcon>
-        <PdfIcon />
-      </ListItemIcon>
-      <ListItemText primary={title} />
-    </ListItemButton>
+const TextMenuItem: React.FC<TextMenuItemProps> = ({ url, title, sample }) => (
+  <ListItem
+    disablePadding
+    secondaryAction={
+      sample ? (
+        <ListItem disablePadding component="a" href={sample}>
+          <ListItemButton>
+            <ListItemIcon>
+              <DownloadIcon />
+            </ListItemIcon>
+            <ListItemText primary="サンプル" />
+          </ListItemButton>
+        </ListItem>
+      ) : undefined
+    }
+  >
+    <a href={url}>
+      <ListItemButton sx={{ pl: 4 }}>
+        <ListItemIcon>
+          <PdfIcon />
+        </ListItemIcon>
+        <ListItemText primary={title} />
+      </ListItemButton>
+    </a>
   </ListItem>
 );
 
-type OtherMenuItemProps = TextMenuItemProps & {
+type OtherMenuItemProps = {
+  url: string;
+  title: string;
   icon: React.ReactElement;
 };
 
@@ -56,14 +76,34 @@ const OtherMenuItem: React.FC<OtherMenuItemProps> = ({ icon, url, title }) => (
 
 const textMenus: TextMenuItemProps[] = [
   { url: "text/lesson01.pdf", title: "lesson 01 初級" },
-  { url: "text/lesson02.pdf", title: "lesson 02 ステップアップ その１" },
-  { url: "text/lesson03.pdf", title: "lesson 03 ステップアップ その２" },
-  { url: "text/lesson04.pdf", title: "lesson 04 ステップアップ その３" },
+  {
+    url: "text/lesson02.pdf",
+    title: "lesson 02 ステップアップ その１",
+    sample: "sample/lesson02.sb3",
+  },
+  {
+    url: "text/lesson03.pdf",
+    title: "lesson 03 ステップアップ その２",
+    sample: "sample/lesson03.sb3",
+  },
+  {
+    url: "text/lesson04.pdf",
+    title: "lesson 04 ステップアップ その３",
+    sample: "sample/lesson04.sb3",
+  },
   { url: "text/pen.pdf", title: "ペンを使ってみよう" },
-  { url: "text/routing.pdf", title: "スプライトを道に沿って移動させてみよう" },
+  {
+    url: "text/routing.pdf",
+    title: "スプライトを道に沿って移動させてみよう",
+    sample: "sample/routing.sb3",
+  },
   { url: "text/jump.pdf", title: "スプライトをジャンプさせてみよう" },
   { url: "text/function.pdf", title: "関数を使ってみよう" },
-  { url: "text/motion.pdf", title: "ビデオモーションセンサーを使ってみよう" },
+  {
+    url: "text/motion.pdf",
+    title: "ビデオモーションセンサーを使ってみよう",
+    sample: "sample/motion.sb3",
+  },
   { url: "text/irobot-root.pdf", title: "iRobot Root プログラミング" },
 ];
 
@@ -139,12 +179,12 @@ function App() {
                     <Collapse in={open} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding>
                         {textMenus.map((props) => (
-                          <TextMenuItem {...props} />
+                          <TextMenuItem key={props.url} {...props} />
                         ))}
                       </List>
                     </Collapse>
                     {otherMenus.map((props) => (
-                      <OtherMenuItem {...props} />
+                      <OtherMenuItem key={props.url} {...props} />
                     ))}
                   </List>
                 </nav>
