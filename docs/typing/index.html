@@ -82,7 +82,7 @@ let lessons = [
 		title: "ホーム・ポジション（左手）練習１",
 		msg:[
 			"左手のホーム・ポジションの練習をしよう。",
-			"右手の人差指を[Ｆ]、中指を[Ｄ], 薬指を[Ｓ],小指を[Ａ]の上におこう。",
+			"左手の人差指を[Ｆ]、中指を[Ｄ], 薬指を[Ｓ],小指を[Ａ]の上におこう。",
 			"[Ｆ]キーには突起がついているのを、指で触って確認しよう。",
 			"[Enter]キーを押したら練習を開始するよ。"
 		],
@@ -976,7 +976,7 @@ async function ShowMessage(msg)
 	}
 
 	$("#cursor").remove();
-	document.getElementById("last").id = "";
+	document.getElementById("last").removeAttribute("id");
 	$("body").append("<p id='last'><span id='cursor'></span></p>");
 
 	if (!skip_message)
@@ -997,7 +997,7 @@ async function Training()
 		input_end = false;
 		//start_time = new Date().getTime();
 		//end_time = start_time + 10 * 1000;			// 10秒間入力がない場合は中止
-		let training_count = 0;
+		let training_count = 0;							// （ゆっくり入力の場合）何行で練習を打ち切るか
 		do {
 			num_key = 0;
 			start_time = new Date().getTime();
@@ -1017,7 +1017,7 @@ async function Training()
 			//}
 			//else
 				training_count++;
-		} while (wpm < current_chapter.speed && training_count < 10);
+		} while (wpm < current_chapter.speed && training_count < 4);
 		console.log("End Training")
 //	}
 //	else {
@@ -1040,7 +1040,10 @@ async function Training()
 //	}
 	// 結果の設定
 	if (advice == "") {
-		if (wpm < 25)
+		if (wpm < current_chapter.speed) {
+			advice = "次はもう少し早く入力しよう。"
+		}
+		else if (wpm < 25)
 			advice = "できたね！";
 		else if (wpm < 30)
 			advice = "よく頑張ったね！";
@@ -1057,8 +1060,8 @@ function TrainingSub(msg)
 	inputs = "";
 	input_end = false;
 	question = msg;
-	$("#last").html(question);
-	document.getElementById("last").id = "";
+	$("#last").html(question).addClass("question");
+	document.getElementById("last").removeAttribute("id");
 	$("body").append("<p id='last'><span id='inputs'><span id='cursor'></span></p>");
 }
 
@@ -1124,7 +1127,7 @@ function GenerateQuestion2(str)
 </head>
 <body>
 	<audio preload="auto">
-		<source src="beep.wav" type="audio/wav">
+		<source src="beep.mp3" >
 	</audio>
 	<h5 class="info">レッスン：<span id="lesson_num">0</span>　あなたの入力速度：<span id="wpm">10ワード</span></h5>
 	<h1 id="lesson_title">ブラインド・タッチの練習</h1>
