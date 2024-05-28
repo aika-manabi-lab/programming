@@ -20,6 +20,7 @@ import PdfIcon from "@mui/icons-material/TextSnippetOutlined";
 import DownloadIcon from "@mui/icons-material/DownloadOutlined";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import ComputerIcon from "@mui/icons-material/ComputerOutlined";
 
 import { themeOptions } from "./theme";
 import { Collapse } from "@mui/material";
@@ -108,6 +109,11 @@ const textMenus: TextMenuItemProps[] = [
 ];
 
 const otherMenus: OtherMenuItemProps[] = [
+  {
+    icon: <ComputerIcon />,
+    url: "https://docs.google.com/presentation/d/1YyCI3WfL-qH4jSxk0TzPU-mHcHHCXqAXswF3A3UPkUo/edit?usp=sharing",
+    title: "コンピュータの基礎知識",
+  },
   { icon: <KeyboardIcon />, url: "typing/index.html", title: "タイピング練習" },
   {
     icon: <CrossWordIcon />,
