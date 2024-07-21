@@ -105,6 +105,11 @@ const textMenus: TextMenuItemProps[] = [
     title: "ビデオモーションセンサーを使ってみよう",
     sample: "sample/motion.sb3",
   },
+  {
+    url: "text/music.pdf",
+    title: "楽曲を奏でてみよう",
+    sample: "sample/music.sb3",
+  },
   { url: "text/irobot-root.pdf", title: "iRobot Root プログラミング" },
 ];
 
