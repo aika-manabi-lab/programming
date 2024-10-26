@@ -12,6 +12,7 @@
 - <ruby>宙<rt>ちゅう</rt></ruby>に<ruby>浮<rt>う</rt></ruby>いているダイヤを<ruby>集<rt>あつ</rt></ruby>める
 - たまにボールが<ruby>飛<rt>と</rt></ruby>んでくる
 - ボールに<ruby>当<rt>あた</rt></ruby>たるとダイヤを<ruby>落<rt>お</rt></ruby>とす
+- ゴールしたらプログラムを<ruby>止<rt>と</rt></ruby>める
 
 <div class="page"/>
 
@@ -72,7 +73,7 @@
 
 また、<ruby>走<rt>はし</rt></ruby>るプログラムでは<ruby>地面<rt>じめん</rt></ruby>に<ruby>触<rt>ふ</rt></ruby>れているときのみコスチュームを<ruby>切<rt>き</rt></ruby>り<ruby>替<rt>か</rt></ruby>えるようにします。
 
-<img src="./images/003.png" width="400" style="vertical-align: top">
+<img src="./images/003.png" width="250" style="vertical-align: top">
 
 <img src="./images/004.png" width="250" style="vertical-align: top">
 
@@ -94,3 +95,58 @@
 <img src="./images/006.png" width="180" style="vertical-align: top">
 
 <img src="./images/005.png" width="450" style="vertical-align: top">
+
+<div class="page"/>
+
+## たまにボールが<ruby>飛<rt>と</rt></ruby>んでくる
+
+ボールもランダムに現れて右から左に飛んでいきます。
+
+ダイヤよりも少し速く動くようにしてみましょう。
+
+- <ruby>好<rt>す</rt></ruby>きなボールのスプライトを<ruby>追加<rt>ついか</rt></ruby>して<ruby>名前<rt>なまえ</rt></ruby>を「ボール」にする
+- ボールの<ruby>大<rt>おお</rt></ruby>きさを「50」にして、うさぎと<ruby>同<rt>おな</rt></ruby>じ<ruby>高<rt>たか</rt></ruby>さに<ruby>置<rt>お</rt></ruby>く
+- ボールのプログラムで、<ruby>進<rt>すす</rt></ruby>んだ<ruby>距離<rt>きょり</rt></ruby>が 100<ruby>増<rt>ふ</rt></ruby>えるたびに 10％の<ruby>確率<rt>かくりつ</rt></ruby>でボールが<ruby>現<rt>あらわ</rt></ruby>れ、<ruby>右<rt>みぎ</rt></ruby>から<ruby>左<rt>ひだり</rt></ruby>に<ruby>移動<rt>いどう</rt></ruby>するようにする
+- ボールが<ruby>飛<rt>と</rt></ruby>ぶので<ruby>回転<rt>かいてん</rt></ruby>させたり、<ruby>飛<rt>と</rt></ruby>んでいるような<ruby>音<rt>おと</rt></ruby>もならしてみたりしましょう
+
+<img src="./images/007.png" width="600">
+
+<div class="page"/>
+
+## ボールに<ruby>当<rt>あた</rt></ruby>たるとダイヤを<ruby>落<rt>お</rt></ruby>とす
+
+うさぎがボールに<ruby>当<rt>あ</rt></ruby>たったらダイヤを<ruby>落<rt>お</rt></ruby>とすようにします。
+
+<ruby>落<rt>お</rt></ruby>としたことがわかるようにダイヤを<ruby>飛<rt>と</rt></ruby>び<ruby>散<rt>ち</rt></ruby>らせてみましょう。
+
+- <ruby>落<rt>お</rt></ruby>としたダイヤは<ruby>普通<rt>ふつう</rt></ruby>のダイヤとは<ruby>違<rt>ちが</rt></ruby>う<ruby>動<rt>うご</rt></ruby>きをするので、<ruby>新<rt>あたら</rt></ruby>しく「<ruby>crystal<rt>クリスタル</rt></ruby>」のスプライトをもう<ruby>一<rt>ひと</rt></ruby>つ<ruby>追加<rt>ついか</rt></ruby>して<ruby>名前<rt>なまえ</rt></ruby>を「<ruby>落<rt>お</rt></ruby>としたダイヤ」にする
+- ボールのプログラムで、うさぎに<ruby>当<rt>あ</rt></ruby>たったら<ruby>音<rt>おと</rt></ruby>がなって、「ボールに<ruby>当<rt>あ</rt></ruby>たった」メッセージを<ruby>飛<rt>と</rt></ruby>ばし、ボールは<ruby>消<rt>き</rt></ruby>えるようにする
+- <ruby>落<rt>お</rt></ruby>としたダイヤのプログラムで<ruby>以下<rt>いか</rt></ruby>のことをする
+  - ゲームが<ruby>始<rt>はじ</rt></ruby>まったときは<ruby>見<rt>み</rt></ruby>えなくする
+  - 「ボールに<ruby>当<rt>あ</rt></ruby>たった」メッセージを<ruby>受<rt>う</rt></ruby>け<ruby>取<rt>と</rt></ruby>ったら、うさぎのいる<ruby>場所<rt>ばしょ</rt></ruby>から<ruby>落<rt>お</rt></ruby>としたダイヤが<ruby>飛<rt>と</rt></ruby>び<ruby>散<rt>ち</rt></ruby>り、ダイヤ<ruby>変数<rt>へんすう</rt></ruby>の<ruby>数値<rt>すうち</rt></ruby>を<ruby>減<rt>へ</rt></ruby>らす
+
+<img src="./images/008.png" width="230" style="vertical-align: top">
+
+<img src="./images/009.png" width="400" style="vertical-align: top">
+
+> <ruby>飛<rt>と</rt></ruby>び<ruby>散<rt>ち</rt></ruby>らせるときは「◯<ruby>秒<rt>びょう</rt></ruby>でどこかの<ruby>場所<rt>ばしょ</rt></ruby>へ<ruby>行<rt>いｋ</rt></ruby>く」ブロックを<ruby>使<rt>つか</rt></ruby>うと<ruby>簡単<rt>かんたん</rt></ruby>です
+
+<div class="page"/>
+
+## ゴールしたらプログラムを<ruby>止<rt>と</rt></ruby>める
+
+ある<ruby>程度進<rt>ていどすす</rt></ruby>んだらゴールを<ruby>出<rt>だ</rt></ruby>してゲームを<ruby>終了<rt>しゅうりょう</rt></ruby>させます。
+
+- 「<ruby>Wand<rt>ワンド</rt></ruby>」のスプライトを<ruby>追加<rt>ついか</rt></ruby>して<ruby>名前<rt>なまえ</rt></ruby>を「ゴール」にし、<ruby>大<rt>おお</rt></ruby>きさを「200」にしてうさぎがジャンプでも<ruby>飛<rt>と</rt></ruby>び<ruby>越<rt>こ</rt></ruby>せない<ruby>場所<rt>ばしょ</rt></ruby>に<ruby>置<rt>お</rt></ruby>く
+- 「<ruby>進<rt>すす</rt></ruby>んだ<ruby>距離<rt>きょり</rt></ruby>」が 10000 を<ruby>超<rt>こ</rt></ruby>えたらゴールが<ruby>現<rt>あらわ</rt></ruby>れて<ruby>右<rt>みぎ</rt></ruby>から<ruby>左<rt>ひだり</rt></ruby>に<ruby>移動<rt>いどう</rt></ruby>する
+- ゴールがうさぎに<ruby>当<rt>あ</rt></ruby>たったらゲームを<ruby>終了<rt>しゅうりょう</rt></ruby>する
+
+<img src="./images/010.png" width="250" style="vertical-align: top; margin-right: 10px" align="left">
+<img src="./images/011.png" width="250" style="vertical-align: top">
+<img src="./images/012.png" width="250" style="vertical-align: top">
+<img src="./images/013.png" width="250" style="vertical-align: top">
+<img src="./images/014.png" width="250" style="vertical-align: top">
+
+> ゴールをしたときに<ruby>音<rt>おと</rt></ruby>をならすなどの<ruby>演出<rt>えんしゅつ</rt></ruby>をするときは、すぐにプログラムを止めずに<ruby>演出<rt>えんしゅつ</rt></ruby>が<ruby>終<rt>お</rt></ruby>わるまで<ruby>待<rt>ま</rt></ruby>つ<ruby>必要<rt>ひつよう</rt></ruby>があります。
+>
+> その<ruby>間<rt>あいだ</rt></ruby>に<ruby>他<rt>ほか</rt></ruby>のプログラムが<ruby>動<rt>うご</rt></ruby>かないようにメッセージを<ruby>飛<rt>と</rt></ruby>ばして<ruby>他<rt>ほか</rt></ruby>のスプライトの<ruby>動<rt>うご</rt></ruby>きを<ruby>止<rt>と</rt></ruby>めるとよいです。
