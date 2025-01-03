@@ -113,7 +113,7 @@ const textMenus: TextMenuItemProps[] = [
   {
     url: "text/belt-action.pdf",
     title: "横スクロールアクションゲームを作ってみよう",
-    sample: "sample/belt-action-ball.sb3",
+    sample: "sample/belt-action.sb3",
   },
   { url: "text/irobot-root.pdf", title: "iRobot Root プログラミング" },
 ];
